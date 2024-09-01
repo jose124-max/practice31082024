@@ -23,8 +23,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
         data = request.data
         user_uid = data.get('user')
         try:
-            # Obtener el usuario basado en el UID
-            user = User.objects.get(username=user_uid)  # Suponiendo que UID es almacenado como nombre de usuario
+            user = User.objects.get(username=user_uid)  
             print('El usuario es:')
             print(user.id)
             data['user'] = user.id
@@ -43,12 +42,9 @@ def register_user(request):
     uid = request.data.get('uid')
     email = request.data.get('email')
     display_name = request.data.get('displayName')
-
-    # Verificar si el usuario ya existe
     if User.objects.filter(username=uid).exists():
         return Response({'message': 'El usuario ya existe'}, status=status.HTTP_200_OK)
 
-    # Crear un nuevo usuario en Django
     user = User.objects.create_user(username=uid, email=email, first_name=display_name)
     user.save()
 
